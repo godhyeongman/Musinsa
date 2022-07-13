@@ -9,6 +9,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
+
   "rules": {
     "react/jsx-filename-extension": [
       2,
@@ -20,7 +21,12 @@
         "endOfLine": "auto"
       }
     ],
+
     "import/no-extraneous-dependencies": "off",
-    "@typescript-eslint/no-var-requires": "off"
+    "@typescript-eslint/no-var-requires": "off",
+    "react/react-in-jsx-scope": "off",
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "import/extensions": "off"
   }
 }
