@@ -1,4 +1,5 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: { app: path.join(__dirname, "..", "src", "index.tsx") },
@@ -31,7 +32,7 @@ module.exports = {
                 corejs: 3,
               },
             ],
-            ["@babel/preset-react"],
+            ["@babel/preset-react", { runtime: "automatic" }],
             "@babel/preset-typescript",
           ],
           plugins: ["react-refresh/babel", "babel-plugin-styled-components"],
@@ -44,4 +45,10 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "..", "public", "index.html"),
+      base: "/",
+    }),
+  ],
 };
