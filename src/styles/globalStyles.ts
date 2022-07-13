@@ -10,12 +10,12 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	body {
-		background-color: ${({ theme }) => theme.color.background};
+		background-color: ${({ theme }) => theme.color.useless};
 		width: 100vw;
 		height: 100vh;
 		font-family: "Noto Sans KR", sans-serif;
-		margin: 0 auto;
 	}
+
 	
 	div {
 		box-sizing: border-box;
