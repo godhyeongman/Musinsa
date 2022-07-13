@@ -18,8 +18,12 @@ declare module 'styled-components' {
       useless: string;
       background: string;
       primary: string;
-      gray4: string;
+      tabBorder: string;
+      searchPop: string;
+      inputBorder: string;
+      breakLine: string;
       black: string;
+      white: string;
     };
   }
 }

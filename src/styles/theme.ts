@@ -15,7 +15,11 @@ export const theme: DefaultTheme = {
     useless: '#E5E5E5',
     background: '#F5F5F5',
     primary: '#0078FF',
-    gray4: '#EEEEEE',
+    tabBorder: '#EEEEEE',
+    inputBorder: '#CCCCCC',
+    searchPop: '#F9F9F9',
+    breakLine: '#F1F1F1',
     black: '#000000',
+    white: '#ffffff',
   },
 };
