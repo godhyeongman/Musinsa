@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 type TabButtonProps = {
   contents: string;
@@ -12,14 +12,27 @@ function TabButton({
   contents,
   onClickHandler,
   icon,
-  backgroundColor = 'translate',
+  backgroundColor = 'transparent',
 }: TabButtonProps) {
-  return <TabButtonWrapper />;
+  return (
+    <TabButtonWrapper backgroundColor={backgroundColor}>
+      {contents} {icon}
+    </TabButtonWrapper>
+  );
 }
 
-const TabButtonWrapper = styled.button`
+type TabButtonWrapperProps = { backgroundColor: string };
+
+const TabButtonWrapper = styled.button<TabButtonWrapperProps>`
+  display: flex;
+  gap: 7px;
   padding: 7px 15px;
-  border: 1px solid ${({ theme }) => theme.color.primary};
+  border: 1px solid ${({ theme }) => theme.color.gray4};
+  border-radius: 18px;
+
+  ${({ backgroundColor }) => css`
+    background-color: ${backgroundColor};
+  `}
 `;
 
-export default TabButtonProps;
+export default TabButton;
