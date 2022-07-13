@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "import"],
   "extends": [
     "airbnb",
     "plugin:jsx-a11y/recommended",
@@ -11,6 +11,7 @@
   ],
 
   "rules": {
+    "import/no-unresolved": "error",
     "react/jsx-filename-extension": [
       2,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
@@ -23,12 +24,21 @@
     ],
 
     "import/no-extraneous-dependencies": "off",
-    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-var-requires": "warn",
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
-    "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
     "import/extensions": "off",
     "no-use-before-define": "warn"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
   }
 }
