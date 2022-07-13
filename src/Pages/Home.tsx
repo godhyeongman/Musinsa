@@ -14,6 +14,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   width: 375px;
+  background-color: ${({ theme }) => theme.color.background};
 `;
 
 export default Home;
