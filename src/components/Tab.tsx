@@ -1,29 +1,29 @@
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
 import styled, { css } from 'styled-components';
+import Text from '@/components/common/Text';
 
-type TabButtonProps = {
+type TabProps = {
   contents: string;
   onClickHandler?(e: React.MouseEvent<HTMLElement>): void;
-  icon?: ReactNode;
+  Icon?: ReactElement | null;
   backgroundColor?: string;
 };
 
-function TabButton({
+function Tab({
   contents,
   onClickHandler,
-  icon,
+  Icon,
   backgroundColor = 'transparent',
-}: TabButtonProps) {
+}: TabProps) {
   return (
-    <TabButtonWrapper backgroundColor={backgroundColor}>
-      {contents} {icon}
-    </TabButtonWrapper>
+    <TabWrapper backgroundColor={backgroundColor}>
+      <Text contents={contents} fontWeight="small" />
+      {Icon}
+    </TabWrapper>
   );
 }
 
-type TabButtonWrapperProps = { backgroundColor: string };
-
-const TabButtonWrapper = styled.button<TabButtonWrapperProps>`
+const TabWrapper = styled.button<Partial<TabProps>>`
   display: flex;
   gap: 7px;
   padding: 7px 15px;
@@ -35,4 +35,4 @@ const TabButtonWrapper = styled.button<TabButtonWrapperProps>`
   `}
 `;
 
-export default TabButton;
+export default Tab;
