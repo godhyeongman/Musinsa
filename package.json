@@ -4,7 +4,9 @@
   "description": "Test for musinsa",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --config webpack.dev.js --progress",
+    "build:dev": "webpack --config webpack.dev.js --progress",
+    "build:prod": "webpack --config webpack.prod.js --progress"
   },
   "repository": {
     "type": "git",
