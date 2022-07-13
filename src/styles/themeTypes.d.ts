@@ -8,11 +8,17 @@ declare module 'styled-components' {
       large?: string;
     };
 
-    fontWeight: { small?: string; medium?: string; large?: string };
+    fontWeight: {
+      small?: string;
+      medium?: string;
+      large?: string;
+    };
 
     color: {
       useless: string;
       background: string;
+      primary: string;
+      gray4: string;
     };
   }
 }

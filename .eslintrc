@@ -25,8 +25,10 @@
     "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/no-var-requires": "off",
     "react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "no-use-before-define": "warn"
   }
 }
