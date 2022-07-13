@@ -26,5 +26,6 @@
     "noImplicitThis": true,
     "alwaysStrict": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["dist"]
 }
