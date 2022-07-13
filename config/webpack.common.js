@@ -1,11 +1,16 @@
 const path = require("path");
 
 module.exports = {
-  entry: { app: path.join(__dirname, "src", "index.tsx") },
+  entry: { app: path.join(__dirname, "..", "src", "index.tsx") },
 
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
+  },
+
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".css", ".json"],
+    alias: { "@": path.resolve(__dirname, "..", "src") },
   },
 
   module: {
