@@ -29,10 +29,17 @@ const TabWrapper = styled.button<Partial<TabProps>>`
   padding: 7px 15px;
   border: 1px solid ${({ theme }) => theme.color.tabBorder};
   border-radius: 18px;
-
   ${({ backgroundColor }) => css`
     background-color: ${backgroundColor};
   `}
+
+  :hover {
+    background-color: ${({ theme }) => theme.color.breakLine};
+  }
+
+  :active {
+    background-color: ${({ theme }) => theme.color.primary};
+  }
 `;
 
 export default Tab;
