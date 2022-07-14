@@ -3,7 +3,7 @@ import Text from '@/components/common/Text';
 
 type BrandNameProps = { name: string };
 
-function BrandName({ name }: BrandNameProps) {
+function BrandNameText({ name }: BrandNameProps) {
   return <StyledText contents={name} fontSize="small" />;
 }
 
@@ -11,4 +11,4 @@ const StyledText = styled(Text)`
   margin-bottom: 8px;
 `;
 
-export default BrandName;
+export default BrandNameText;
