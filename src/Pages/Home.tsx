@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DefaultHeader } from '@/templates';
+import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
+import { DisplayToggleProvider } from '@/contexts/DisplayToggleProvider';
 
 function Home() {
   return (
-    <Layout>
-      <header>
-        <DefaultHeader />
-      </header>
-    </Layout>
+    <DisplayToggleProvider>
+      <Layout>
+        <header>
+          <DefaultHeaderTemplate />
+        </header>
+      </Layout>
+    </DisplayToggleProvider>
   );
 }
 
@@ -18,7 +21,6 @@ const Layout = styled.div`
   flex-direction: column;
   width: 375px;
   background-color: ${({ theme }) => theme.color.background};
-
   header {
     position: fixed;
     display: flex;
