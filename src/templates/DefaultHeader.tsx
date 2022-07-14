@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Logo from '@/assets/icons/Logo.svg';
 import TabBar from '@/components/filter/TabBar';
 import Tab from '@/components/filter/Tab';
