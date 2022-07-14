@@ -5,7 +5,7 @@ type DiscountRateProps = { discountRate: string };
 function DiscountRateText({ discountRate }: DiscountRateProps) {
   return (
     <Text
-      contents={discountRate}
+      contents={`${discountRate}%`}
       fontSize="large"
       fontWeight="large"
       color="red"
