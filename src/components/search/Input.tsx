@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 import SEARCH_ICON from '@/assets/icons/Search.svg';
 
-function Input() {
+type InputProps = { isClicked: boolean };
+
+function Input({ isClicked }: InputProps) {
   return (
-    <StyledForm>
+    <StyledForm isClicked={isClicked}>
       <StyledInput placeholder="상품 검색" />
     </StyledForm>
   );
 }
 
-const StyledForm = styled.form`
-  display: flex;
+const StyledForm = styled.form<Partial<InputProps>>`
+  display: ${({ isClicked }) => (isClicked ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   padding: 15px 20px;
