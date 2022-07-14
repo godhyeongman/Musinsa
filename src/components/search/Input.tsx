@@ -5,7 +5,12 @@ type InputProps = { isClicked: boolean };
 
 function Input({ isClicked }: InputProps) {
   return (
-    <StyledForm isClicked={isClicked}>
+    <StyledForm
+      isClicked={isClicked}
+      onClick={e => {
+        e.stopPropagation();
+      }}
+    >
       <StyledInput placeholder="상품 검색" />
     </StyledForm>
   );

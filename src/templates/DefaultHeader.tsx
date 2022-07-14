@@ -20,6 +20,11 @@ function DefaultHeader() {
     currentDisplayState: boolean,
   ) => {
     e.stopPropagation();
+
+    if (toggleDisplayState) {
+      return;
+    }
+
     setToggle(currentDisplayState);
   };
 
