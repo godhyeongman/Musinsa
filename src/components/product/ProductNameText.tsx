@@ -1,14 +1,24 @@
-import styled from 'styled-components';
-import Text from '@/components/common/Text';
+import styled, { css } from 'styled-components';
 
 type ProductNameProps = { name: string };
 
 function ProductNameText({ name }: ProductNameProps) {
-  return <StyledText contents={name} />;
+  return <StyledText>{name}</StyledText>;
 }
 
-const StyledText = styled(Text)`
-  text-decoration: line-through;
+const StyledText = styled.span`
+  width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  ${({ theme }) =>
+    css`
+      font-size: ${theme.fontSize.large};
+      font-weight: ${theme.fontWeight.large};
+    `};
 `;
 
 export default ProductNameText;
