@@ -13,12 +13,12 @@ const initialState: {
 function useFetchData(url: string) {
   const [fetchState, setFetchState] = useState(initialState);
 
-  const startFetch = async (apiURL: string) => {
+  const startFetch = (apiURL: string) => {
     setFetchState({ ...fetchState, isLoading: true });
     try {
-      const data = await fetch(apiURL);
-      const JSONData = await data.json();
-      setFetchState({ ...fetchState, payLoad: JSONData });
+      fetch(apiURL)
+        .then(fetched => fetched.json())
+        .then(data => setFetchState({ ...fetchState, payLoad: data }));
     } catch {
       setFetchState({ ...fetchState, isError: true });
       throw new Error('데이터 통신에러');
@@ -26,6 +26,7 @@ function useFetchData(url: string) {
       setFetchState({ ...fetchState, isLoading: false });
     }
   };
+
   useEffect(() => {
     startFetch(url);
   }, []);
@@ -34,3 +35,18 @@ function useFetchData(url: string) {
 }
 
 export default useFetchData;
+
+// Todo: 버그 발생 PayLoad 변경안됨
+// const startFetch = async (apiURL: string) => {
+//     setFetchState({ ...fetchState, isLoading: true });
+//     try {
+//       const data = await fetch(apiURL);
+//       const JSONData = await data.json();
+//       setFetchState({ ...fetchState, payLoad: JSONData });
+//     } catch {
+//       setFetchState({ ...fetchState, isError: true });
+//       throw new Error('데이터 통신에러');
+//     } finally {
+//       setFetchState({ ...fetchState, isLoading: false });
+//     }
+//   };
