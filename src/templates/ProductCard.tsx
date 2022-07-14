@@ -4,6 +4,9 @@ import * as Product from '@/components/product';
 type ProductCardProps = {
   id: number;
   brandName: string;
+  productName: string;
+  originalPrice: number;
+  currentPrice: number;
   imageUrl: string;
   linkUrl: string;
   brandLinkUrl: string;
@@ -16,6 +19,9 @@ type ProductCardProps = {
 function ProductCard({
   id,
   brandName,
+  productName,
+  originalPrice,
+  currentPrice,
   imageUrl,
   linkUrl,
   brandLinkUrl,
@@ -25,21 +31,18 @@ function ProductCard({
   saleRate,
 }: Partial<ProductCardProps>) {
   return (
-    <ProductCardWrapper>
+    <ProductCardWrapper key={id}>
       <ProductFigure>
-        <ProductImg
-          src="https://image.msscdn.net/musinsaUI/homework/data/img.jpg"
-          alt="제품 사진"
-        />
+        <ProductImg src={imageUrl} alt="제품 사진" />
       </ProductFigure>
       <InfoSection>
-        <Product.BrandNameText name="브랜드 이름" />
-        <Product.ProductNameText name="상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명" />
+        <Product.BrandNameText name={brandName} />
+        <Product.ProductNameText name={productName} />
         <SaledPrice>
-          <Product.CurrentPriceText price="dummy" />
-          <Product.DiscountRateText discountRate="333333" />
+          <Product.CurrentPriceText price={currentPrice} />
+          <Product.DiscountRateText discountRate={saleRate} />
         </SaledPrice>
-        <Product.OriginalPriceText originalPrice="dummy" />
+        <Product.OriginalPriceText originalPrice={originalPrice} />
       </InfoSection>
     </ProductCardWrapper>
   );
@@ -51,7 +54,9 @@ const ProductCardWrapper = styled.div`
   width: fit-content;
 `;
 
-const ProductFigure = styled.figure``;
+const ProductFigure = styled.figure`
+  width: 190px;
+`;
 
 const ProductImg = styled.img``;
 
