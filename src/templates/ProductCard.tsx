@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import Text from '@/components/common/Text';
+import * as Product from '@/components/product';
 
 function ProductCard() {
+  const testPrice = 10000000;
+
   return (
     <ProductCardWrapper>
       <ProductFigure>
@@ -11,32 +13,13 @@ function ProductCard() {
         />
       </ProductFigure>
       <InfoSection>
-        <Text
-          contents="브랜드명"
-          fontSize="small"
-          styles={{ marginBottom: '8px' }}
-        />
-        <Text
-          contents="상품명"
-          fontSize="medium"
-          fontWeight="large"
-          styles={{ marginBottom: '4px' }}
-        />
+        <Product.BrandNameText name="브랜드 이름" />
+        <Product.ProductNameText name="상품명" />
         <SaledPrice>
-          <Text contents="가격" fontSize="large" fontWeight="large" />
-          <Text
-            contents="할인률"
-            fontSize="large"
-            fontWeight="large"
-            color="red"
-          />
+          <Product.CurrentPriceText price={testPrice.toLocaleString()} />
+          <Product.DiscountRateText discountRate={String(30)} />
         </SaledPrice>
-        <Text
-          contents="원가"
-          fontSize="small"
-          color="useless"
-          styles={{ textDecoration: 'line-through' }}
-        />
+        <Product.OriginalPriceText originalPrice={testPrice.toLocaleString()} />
       </InfoSection>
     </ProductCardWrapper>
   );
