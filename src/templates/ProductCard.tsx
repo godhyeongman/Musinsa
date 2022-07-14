@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import * as Product from '@/components/product';
+import React from 'react';
 
 type ProductCardProps = {
   id: number;
@@ -33,7 +34,7 @@ function ProductCard({
   return (
     <ProductCardWrapper key={id}>
       <ProductFigure>
-        <ProductImg src={imageUrl} alt="제품 사진" />
+        <ProductImg src={imageUrl} alt="제품 사진" onError={onErrorImg} />
       </ProductFigure>
       <InfoSection>
         <Product.BrandNameText name={brandName} />
@@ -48,6 +49,11 @@ function ProductCard({
   );
 }
 
+const onErrorImg = (e: React.SyntheticEvent<any, Event>) => {
+  e.currentTarget.src =
+    'https://image.msscdn.net/musinsaUI/homework/data/img.jpg';
+};
+
 const ProductCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,9 +62,12 @@ const ProductCardWrapper = styled.div`
 
 const ProductFigure = styled.figure`
   width: 190px;
+  height: 200px;
 `;
 
-const ProductImg = styled.img``;
+const ProductImg = styled.img`
+  object-fit: cover;
+`;
 
 const InfoSection = styled.section`
   display: flex;
