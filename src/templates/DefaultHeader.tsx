@@ -21,13 +21,9 @@ function DefaultHeader() {
   ) => {
     e.stopPropagation();
 
-    if (toggleDisplayState) {
-      return;
-    }
-
     setToggle(currentDisplayState);
   };
-
+  // Todo: 리팩토링 -> 검색 버튼을 따로 만들것인가에 대해서 고민할것 그럴경우 if문 사라짐
   const filterTabItem = FILTER_TAB_DATA.map(({ contents, ownIcon }, idx) => {
     if (idx === 0) {
       return (
