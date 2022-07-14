@@ -15,6 +15,7 @@ export function Home() {
   );
 
   let test;
+
   if (productsData.payLoad) {
     const {
       payLoad: {
@@ -50,6 +51,7 @@ export function Home() {
           imageUrl={imageUrl}
           linkUrl={linkUrl}
           brandLinkUrl={brandLinkUrl}
+          key={goodsNo}
         />
       ),
     );
