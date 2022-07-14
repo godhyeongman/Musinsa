@@ -9,7 +9,13 @@ type TextProps = {
   styles?: any; // 범용성을 위해
 };
 
-function Text({ contents, fontSize, fontWeight, color, styles }: TextProps) {
+function Text({
+  contents,
+  fontSize = 'medium',
+  fontWeight = 'medium',
+  color = 'black',
+  styles,
+}: TextProps) {
   return (
     <StyledSpan
       fontSize={fontSize}
@@ -23,18 +29,12 @@ function Text({ contents, fontSize, fontWeight, color, styles }: TextProps) {
 }
 
 const StyledSpan = styled.span<Partial<TextProps>>`
-  ${({
-    theme,
-    color = 'black',
-    fontSize = 'medium',
-    fontWeight = 'medium',
-    styles,
-  }) =>
+  ${({ theme, color, fontSize, fontWeight, styles }) =>
     css`
-      color: ${theme.color[color]};
-      font-weight: ${theme.fontWeight[fontWeight]};
-      fontsize: ${theme.fontSize[fontSize]};
-      ${styles};
+      color: ${theme.color[color!]};
+      font-weight: ${theme.fontWeight[fontWeight!]};
+      fontsize: ${theme.fontSize[fontSize!]};
+      ${styles || null};
     `}
 `;
 

@@ -16,7 +16,7 @@ function Tab({
   backgroundColor = 'transparent',
 }: TabProps) {
   return (
-    <TabWrapper backgroundColor={backgroundColor}>
+    <TabWrapper backgroundColor={backgroundColor} onClick={onClickHandler}>
       <Text contents={contents} fontWeight="small" />
       {Icon}
     </TabWrapper>
@@ -27,7 +27,7 @@ const TabWrapper = styled.button<Partial<TabProps>>`
   display: flex;
   gap: 7px;
   padding: 7px 15px;
-  border: 1px solid ${({ theme }) => theme.color.gray4};
+  border: 1px solid ${({ theme }) => theme.color.tabBorder};
   border-radius: 18px;
 
   ${({ backgroundColor }) => css`
