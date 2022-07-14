@@ -13,7 +13,7 @@ export const theme: DefaultTheme = {
   },
   color: {
     useless: '#E5E5E5',
-    background: '#F5F5F5',
+    background: '#ffffff',
     primary: '#0078FF',
     tabBorder: '#EEEEEE',
     inputBorder: '#CCCCCC',
