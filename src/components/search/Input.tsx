@@ -19,7 +19,7 @@ const StyledForm = styled.form<Partial<InputProps>>`
 `;
 
 const StyledInput = styled.input`
-  width: 345px;
+  width: 300px;
   padding: 8px 14px;
   border: 1px solid ${({ theme }) => theme.color.inputBorder};
 

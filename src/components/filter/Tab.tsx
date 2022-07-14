@@ -16,7 +16,7 @@ function Tab({
   backgroundColor = 'transparent',
 }: TabProps) {
   return (
-    <TabWrapper backgroundColor={backgroundColor}>
+    <TabWrapper backgroundColor={backgroundColor} onClick={onClickHandler}>
       <Text contents={contents} fontWeight="small" />
       {Icon}
     </TabWrapper>
