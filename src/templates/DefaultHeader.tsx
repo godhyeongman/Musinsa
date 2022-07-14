@@ -13,12 +13,14 @@ import {
 // TODO: a 태그 추후 리액트 라우터 돔을 이용하여 Link태그로 개선가능
 function DefaultHeader() {
   const toggleDisplayState = useNullGuardedContext(ToggleStateContext);
-  const setToggleDisplayState = useNullGuardedContext(
-    ToggleStateDispatchContext,
-  );
+  const { setToggle } = useNullGuardedContext(ToggleStateDispatchContext);
 
-  const toggleFilterInput = (currentDisplayState: boolean) => {
-    setToggleDisplayState(currentDisplayState);
+  const toggleFilterInput = (
+    e: React.MouseEvent<HTMLElement>,
+    currentDisplayState: boolean,
+  ) => {
+    e.stopPropagation();
+    setToggle(currentDisplayState);
   };
 
   const filterTabItem = FILTER_TAB_DATA.map(({ contents, ownIcon }, idx) => {
@@ -27,8 +29,8 @@ function DefaultHeader() {
         <Tab
           contents={contents}
           Icon={ownIcon}
-          onClickHandler={(e: React.MouseEvent<HTMLElement>) => {
-            toggleFilterInput(toggleDisplayState);
+          onClickHandler={e => {
+            toggleFilterInput(e, toggleDisplayState);
           }}
         />
       );

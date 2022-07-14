@@ -1,17 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
-import { DisplayToggleProvider } from '@/contexts/DisplayToggleProvider';
+import { ToggleStateDispatchContext } from '@/contexts/DisplayToggleProvider';
+import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 
-function Home() {
+export function Home() {
+  const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
+
   return (
-    <DisplayToggleProvider>
-      <Layout>
-        <header>
-          <DefaultHeaderTemplate />
-        </header>
-      </Layout>
-    </DisplayToggleProvider>
+    <Layout
+      onClick={() => {
+        setFalse();
+      }}
+    >
+      <header>
+        <DefaultHeaderTemplate />
+      </header>
+    </Layout>
   );
 }
 
