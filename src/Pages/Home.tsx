@@ -8,7 +8,7 @@ import useProductItem from '@/hooks/useProductItem';
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
   const [endScrollCount, setEndScrollCount] = useState(0);
-  const { target, productCards, loadMoreItem } = useProductItem();
+  const { target, productCards, setLoadMoreUrl } = useProductItem();
 
   useEffect(() => {
     if (!target) {
@@ -18,10 +18,10 @@ export function Home() {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
         setEndScrollCount(endScrollCount + 1);
-        console.log(1);
+        setLoadMoreUrl(`${process.env.GET_PRODUCT_DATA}${endScrollCount}.json`);
       }
     });
-    observer.observe(target.current);
+    observer.observe(target.current!);
   }, []);
 
   return (

@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import * as Product from '@/components/product';
 import React, { forwardRef } from 'react';
 
-type ProductCardProps = {
-  id: number;
+type ProductDataProps = {
+  goodsNo: number;
   brandName: string;
-  productName: string;
-  originalPrice: number;
-  currentPrice: number;
+  goodsName: string;
+  normalPrice: number;
+  price: number;
   imageUrl: string;
   linkUrl: string;
   brandLinkUrl: string;
@@ -17,65 +17,69 @@ type ProductCardProps = {
   saleRate: number;
 };
 
-function ProductCard(
-  {
-    id,
-    brandName,
-    productName,
-    originalPrice,
-    currentPrice,
-    imageUrl,
-    linkUrl,
-    brandLinkUrl,
-    isSale,
-    isSoldOut,
-    isExclusive,
-    saleRate,
-  }: ProductCardProps,
-  ref,
-) {
-  const saledItemInfo = (
-    <>
-      <a href={brandLinkUrl}>
-        <Product.BrandNameText name={brandName} />
-      </a>
-      <a href={linkUrl}>
-        <Product.ProductNameText name={productName} />
-      </a>
-      <SaledPrice>
-        <Product.CurrentPriceText price={currentPrice.toLocaleString()} />
-        <Product.DiscountRateText discountRate={`${saleRate}`} />
-      </SaledPrice>
-      <Product.OriginalPriceText
-        originalPrice={originalPrice.toLocaleString()}
-      />
-    </>
-  );
+export const ProductCard = forwardRef(
+  (
+    { productData }: { productData: ProductDataProps },
+    ref: React.Ref<HTMLDivElement>,
+  ) => {
+    const {
+      goodsNo,
+      brandName,
+      goodsName,
+      normalPrice,
+      price,
+      imageUrl,
+      linkUrl,
+      brandLinkUrl,
+      isSale,
+      isSoldOut,
+      isExclusive,
+      saleRate,
+    } = productData;
 
-  const noneSaledItemInfo = (
-    <>
-      <a href={brandLinkUrl}>
-        <Product.BrandNameText name={brandName} />
-      </a>
-      <a href={linkUrl}>
-        <Product.ProductNameText name={productName} />
-      </a>
-      <SaledPrice>
-        <Product.CurrentPriceText price={originalPrice.toLocaleString()} />
-      </SaledPrice>
-    </>
-  );
+    const saledItemInfo = (
+      <>
+        <a href={brandLinkUrl}>
+          <Product.BrandNameText name={brandName} />
+        </a>
+        <a href={linkUrl}>
+          <Product.ProductNameText name={goodsName} />
+        </a>
+        <SaledPrice>
+          <Product.CurrentPriceText price={price.toLocaleString()} />
+          <Product.DiscountRateText discountRate={`${saleRate}`} />
+        </SaledPrice>
+        <Product.OriginalPriceText
+          originalPrice={normalPrice.toLocaleString()}
+        />
+      </>
+    );
 
-  return (
-    <ProductCardWrapper key={id} ref={ref}>
-      <ProductFigure>
-        <ProductImg src={imageUrl} alt="제품 사진" onError={onErrorImg} />
-        <Product.ExclusiveItemBadge isExclusive={isExclusive} />
-      </ProductFigure>
-      <InfoSection>{isSale ? saledItemInfo : noneSaledItemInfo}</InfoSection>
-    </ProductCardWrapper>
-  );
-}
+    const noneSaledItemInfo = (
+      <>
+        <a href={brandLinkUrl}>
+          <Product.BrandNameText name={brandName} />
+        </a>
+        <a href={linkUrl}>
+          <Product.ProductNameText name={goodsName} />
+        </a>
+        <SaledPrice>
+          <Product.CurrentPriceText price={normalPrice.toLocaleString()} />
+        </SaledPrice>
+      </>
+    );
+
+    return (
+      <ProductCardWrapper key={goodsNo} ref={ref}>
+        <ProductFigure>
+          <ProductImg src={imageUrl} alt="제품 사진" onError={onErrorImg} />
+          <Product.ExclusiveItemBadge isExclusive={isExclusive} />
+        </ProductFigure>
+        <InfoSection>{isSale ? saledItemInfo : noneSaledItemInfo}</InfoSection>
+      </ProductCardWrapper>
+    );
+  },
+);
 
 const onErrorImg = (e: React.SyntheticEvent<any, Event>) => {
   e.currentTarget.src = process.env.GET_BASE_IMG;
@@ -109,8 +113,3 @@ const SaledPrice = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
-
-export default forwardRef<
-  React.MutableRefObject<undefined | HTMLDivElement>,
-  ProductCardProps
->(ProductCard);
