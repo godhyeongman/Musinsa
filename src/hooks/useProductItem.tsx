@@ -75,7 +75,12 @@ function useProductItem() {
       );
     },
   );
-  return { productCards, target, payLoad: productsData.payLoad };
+
+  const loadMoreItem = () => {
+    return {useFetchData(process.env.GET_PRODUCT_DATA!)};
+  };
+
+  return { productCards, target, payLoad: productsData.payLoad, loadMoreItem };
 }
 
 export default useProductItem;
