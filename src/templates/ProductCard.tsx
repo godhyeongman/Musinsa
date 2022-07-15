@@ -30,21 +30,46 @@ function ProductCard({
   isSoldOut,
   isExclusive,
   saleRate,
-}: Partial<ProductCardProps>) {
+}: ProductCardProps) {
+  const saledItemInfo = (
+    <>
+      <a href={brandLinkUrl}>
+        <Product.BrandNameText name={brandName} />
+      </a>
+      <a href={linkUrl}>
+        <Product.ProductNameText name={productName} />
+      </a>
+      <SaledPrice>
+        <Product.CurrentPriceText price={currentPrice.toLocaleString()} />
+        <Product.DiscountRateText discountRate={`${saleRate}`} />
+      </SaledPrice>
+      <Product.OriginalPriceText
+        originalPrice={originalPrice.toLocaleString()}
+      />
+    </>
+  );
+
+  const noneSaledItemInfo = (
+    <>
+      <a href={brandLinkUrl}>
+        <Product.BrandNameText name={brandName} />
+      </a>
+      <a href={linkUrl}>
+        <Product.ProductNameText name={productName} />
+      </a>
+      <SaledPrice>
+        <Product.CurrentPriceText price={originalPrice.toLocaleString()} />
+      </SaledPrice>
+    </>
+  );
+
   return (
     <ProductCardWrapper key={id}>
       <ProductFigure>
         <ProductImg src={imageUrl} alt="제품 사진" onError={onErrorImg} />
+        <Product.ExclusiveItemBadge isExclusive={isExclusive} />
       </ProductFigure>
-      <InfoSection>
-        <Product.BrandNameText name={brandName} />
-        <Product.ProductNameText name={productName} />
-        <SaledPrice>
-          <Product.CurrentPriceText price={currentPrice} />
-          <Product.DiscountRateText discountRate={saleRate} />
-        </SaledPrice>
-        <Product.OriginalPriceText originalPrice={originalPrice} />
-      </InfoSection>
+      <InfoSection>{isSale ? saledItemInfo : noneSaledItemInfo}</InfoSection>
     </ProductCardWrapper>
   );
 }
@@ -61,6 +86,7 @@ const ProductCardWrapper = styled.div`
 `;
 
 const ProductFigure = styled.figure`
+  position: relative;
   width: 190px;
   height: 200px;
 `;
