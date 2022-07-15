@@ -4,27 +4,27 @@ import { useEffect, useState } from 'react';
 const initialState: {
   payLoad: any;
   isLoading: boolean;
-  isError: boolean;
+  Error: Error | null;
 } = {
   payLoad: null,
   isLoading: false,
-  isError: true,
+  Error: null,
 };
 function useFetchData(url: string) {
   const [fetchState, setFetchState] = useState(initialState);
 
   const startFetch = (apiURL: string) => {
     setFetchState({ ...fetchState, isLoading: true });
-    try {
-      fetch(apiURL)
-        .then(fetched => fetched.json())
-        .then(data => setFetchState({ ...fetchState, payLoad: data }));
-    } catch {
-      setFetchState({ ...fetchState, isError: true });
-      throw new Error('데이터 통신에러');
-    } finally {
-      setFetchState({ ...fetchState, isLoading: false });
-    }
+
+    fetch(apiURL)
+      .then(fetched => fetched.json())
+      .then(data =>
+        setFetchState({ ...fetchState, payLoad: data, isLoading: false }),
+      )
+      .catch(err => {
+        setFetchState({ ...fetchState, Error: err });
+        throw new Error('데이터 통신에러');
+      });
   };
 
   useEffect(() => {
