@@ -25,6 +25,7 @@ declare module 'styled-components' {
       black: string;
       white: string;
       red: string;
+      badgeGreen: string;
     };
   }
 }
