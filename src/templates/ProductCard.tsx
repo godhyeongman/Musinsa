@@ -75,8 +75,7 @@ function ProductCard({
 }
 
 const onErrorImg = (e: React.SyntheticEvent<any, Event>) => {
-  e.currentTarget.src =
-    'https://image.msscdn.net/musinsaUI/homework/data/img.jpg';
+  e.currentTarget.src = process.env.GET_BASE_IMG;
 };
 
 const ProductCardWrapper = styled.div`

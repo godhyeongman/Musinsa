@@ -10,9 +10,7 @@ import useFetchData from '@/hooks/useFetch';
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
-  const productsData = useFetchData(
-    'https://static.msscdn.net/musinsaUI/homework/data/goods0.json',
-  );
+  const productsData = useFetchData(process.env.GET_PRODUCT_DATA);
 
   let test;
 
