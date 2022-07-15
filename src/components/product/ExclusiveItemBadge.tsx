@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 
 export function ExclusiveItemBadge({ isExclusive }: { isExclusive: boolean }) {
-  console.log(isExclusive);
   return <StyledBadge isExclusive={isExclusive}>단독</StyledBadge>;
 }
 
