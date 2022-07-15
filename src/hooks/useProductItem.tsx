@@ -3,9 +3,11 @@ import { ProductCard } from '@/templates';
 import useFetchData from './useFetch';
 
 function useProductItem() {
-  const productsData = useFetchData(process.env.GET_PRODUCT_DATA!);
+  const { fetchState: productsData, setLoadMoreUrl } = useFetchData(
+    `${process.env.GET_PRODUCT_DATA}0.json`,
+  );
 
-  const target = useRef();
+  const target = useRef<HTMLDivElement>(null);
 
   if (!productsData.payLoad) {
     return { productCards: null, payLoad: null, target: null };
@@ -17,70 +19,15 @@ function useProductItem() {
     },
   } = productsData;
 
-  const productCards = list.map(
-    (
-      {
-        brandLinkUrl,
-        brandName,
-        goodsName,
-        goodsNo,
-        imageUrl,
-        isExclusive,
-        isSale,
-        isSoldOut,
-        linkUrl,
-        normalPrice,
-        price,
-        saleRate,
-      }: any,
-      idx: number,
-    ) => {
-      if (idx === list.length - 1) {
-        return (
-          <ProductCard
-            id={goodsNo}
-            brandName={brandName}
-            productName={goodsName}
-            saleRate={saleRate}
-            isSale={isSale}
-            isSoldOut={isSoldOut}
-            isExclusive={isExclusive}
-            currentPrice={price}
-            originalPrice={normalPrice}
-            imageUrl={imageUrl}
-            linkUrl={linkUrl}
-            brandLinkUrl={brandLinkUrl}
-            key={goodsNo}
-            ref={target}
-          />
-        );
-      }
+  const productCards = list.map((productItemData: any, idx: number) => {
+    if (idx === list.length - 1) {
+      return <ProductCard productData={productItemData} ref={target} />;
+    }
 
-      return (
-        <ProductCard
-          id={goodsNo}
-          brandName={brandName}
-          productName={goodsName}
-          saleRate={saleRate}
-          isSale={isSale}
-          isSoldOut={isSoldOut}
-          isExclusive={isExclusive}
-          currentPrice={price}
-          originalPrice={normalPrice}
-          imageUrl={imageUrl}
-          linkUrl={linkUrl}
-          brandLinkUrl={brandLinkUrl}
-          key={goodsNo}
-        />
-      );
-    },
-  );
+    return <ProductCard productData={productItemData} />;
+  });
 
-  const loadMoreItem = () => {
-    return {useFetchData(process.env.GET_PRODUCT_DATA!)};
-  };
-
-  return { productCards, target, payLoad: productsData.payLoad, loadMoreItem };
+  return { productCards, target, setLoadMoreUrl };
 }
 
 export default useProductItem;

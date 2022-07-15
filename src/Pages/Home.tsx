@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
 import { ToggleStateDispatchContext } from '@/contexts/DisplayToggleProvider';
@@ -7,22 +7,26 @@ import useProductItem from '@/hooks/useProductItem';
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
-  const [endScrollCount, setEndScrollCount] = useState(0);
+  const [endScrollCount, setEndScrollCount] = useState<number>(1);
   const { target, productCards, setLoadMoreUrl } = useProductItem();
+
+  const callBack = entries => {
+    if (entries[endScrollCount - 1].isIntersecting) {
+      setEndScrollCount(endScrollCount + 1);
+
+      console.log(endScrollCount);
+      setLoadMoreUrl(`${process.env.GET_PRODUCT_DATA}${endScrollCount}.json`);
+      return endScrollCount;
+    }
+  };
 
   useEffect(() => {
     if (!target) {
       return;
     }
-
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        setEndScrollCount(endScrollCount + 1);
-        setLoadMoreUrl(`${process.env.GET_PRODUCT_DATA}${endScrollCount}.json`);
-      }
-    });
+    const observer = new IntersectionObserver(callBack);
     observer.observe(target.current!);
-  }, []);
+  }, [target]);
 
   return (
     <Layout
@@ -67,4 +71,4 @@ const Layout = styled.div`
   }
 `;
 
-export default React.memo(Home);
+export default Home;
