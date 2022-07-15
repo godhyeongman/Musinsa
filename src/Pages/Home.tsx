@@ -37,7 +37,7 @@ export function Home() {
         normalPrice,
         price,
         saleRate,
-      }) => (
+      }: any) => (
         <ProductCard
           id={goodsNo}
           brandName={brandName}
@@ -87,6 +87,7 @@ const Layout = styled.div`
     flex-wrap: nowrap;
     padding: 17px 0;
     background-color: ${({ theme }) => theme.color.background};
+    z-index: 1000;
   }
 
   main {
