@@ -1,59 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import {
-  DefaultHeader as DefaultHeaderTemplate,
-  ProductCard,
-} from '@/templates';
+import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
 import { ToggleStateDispatchContext } from '@/contexts/DisplayToggleProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
-import useFetchData from '@/hooks/useFetch';
+import useProductItem from '@/hooks/useProductItem';
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
-  const productsData = useFetchData(process.env.GET_PRODUCT_DATA);
+  const [endScrollCount, setEndScrollCount] = useState(0);
+  const { payLoad, target, productCards } = useProductItem();
 
-  let test;
-
-  if (productsData.payLoad) {
-    const {
-      payLoad: {
-        data: { list },
-      },
-    } = productsData;
-
-    test = list.map(
-      ({
-        brandLinkUrl,
-        brandName,
-        goodsName,
-        goodsNo,
-        imageUrl,
-        isExclusive,
-        isSale,
-        isSoldOut,
-        linkUrl,
-        normalPrice,
-        price,
-        saleRate,
-      }: any) => (
-        <ProductCard
-          id={goodsNo}
-          brandName={brandName}
-          productName={goodsName}
-          saleRate={saleRate}
-          isSale={isSale}
-          isSoldOut={isSoldOut}
-          isExclusive={isExclusive}
-          currentPrice={price}
-          originalPrice={normalPrice}
-          imageUrl={imageUrl}
-          linkUrl={linkUrl}
-          brandLinkUrl={brandLinkUrl}
-          key={goodsNo}
-        />
-      ),
-    );
-  }
+  useEffect(() => {
+    if (payLoad) {
+      const observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          console.log(1);
+        }
+      });
+      observer.observe(target.current!);
+    }
+  }, []);
 
   return (
     <Layout
@@ -64,7 +30,7 @@ export function Home() {
       <header>
         <DefaultHeaderTemplate />
       </header>
-      <main>{test}</main>
+      <main>{productCards || null}</main>
     </Layout>
   );
 }
