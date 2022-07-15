@@ -3,6 +3,7 @@ import CurrentPriceText from './CurrentPriceText';
 import DiscountRateText from './DiscountRateText';
 import OriginalPriceText from './OriginalPrice';
 import ProductNameText from './ProductNameText';
+import ExclusiveItemBadge from './ExclusiveItemBadge';
 
 export {
   BrandNameText,
@@ -10,4 +11,5 @@ export {
   DiscountRateText,
   OriginalPriceText,
   ProductNameText,
+  ExclusiveItemBadge,
 };

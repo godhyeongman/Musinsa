@@ -13,7 +13,7 @@ const StyledText = styled.span`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
+  margin-bottom: 4px;
   ${({ theme }) =>
     css`
       font-size: ${theme.fontSize.large};

@@ -34,7 +34,7 @@ const StyledSpan = styled.span<Partial<TextProps>>`
       color: ${theme.color[color!]};
       font-weight: ${theme.fontWeight[fontWeight!]};
       font-size: ${theme.fontSize[fontSize!]};
-      ${styles || null};
+      ${styles};
     `}
 `;
 

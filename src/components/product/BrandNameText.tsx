@@ -1,14 +1,11 @@
-import styled from 'styled-components';
 import Text from '@/components/common/Text';
 
 type BrandNameProps = { name: string };
 
 function BrandNameText({ name }: BrandNameProps) {
-  return <StyledText contents={name} fontSize="small" />;
-}
+  const brandNameTextStyle = { marginBottom: '8px' };
 
-const StyledText = styled(Text)`
-  margin-bottom: 8px;
-`;
+  return <Text contents={name} fontSize="small" styles={brandNameTextStyle} />;
+}
 
 export default BrandNameText;

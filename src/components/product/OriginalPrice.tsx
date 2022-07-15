@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import Text from '@/components/common/Text';
 
 type OriginalPriceProps = {
@@ -6,10 +5,15 @@ type OriginalPriceProps = {
 };
 
 function OriginalPriceText({ originalPrice }: OriginalPriceProps) {
-  return <StyledText contents={originalPrice} />;
+  const originalPriceTextStyle = { textDecoration: 'line-through' };
+
+  return (
+    <Text
+      contents={originalPrice}
+      color="useless"
+      styles={originalPriceTextStyle}
+    />
+  );
 }
 
-const StyledText = styled(Text)`
-  text-decoration: line-through;
-`;
 export default OriginalPriceText;
