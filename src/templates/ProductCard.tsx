@@ -110,6 +110,7 @@ const SaledPrice = styled.div`
   justify-content: space-between;
 `;
 
-export default forwardRef<React.MutableRefObject<undefined>, ProductCardProps>(
-  ProductCard,
-);
+export default forwardRef<
+  React.MutableRefObject<undefined | HTMLDivElement>,
+  ProductCardProps
+>(ProductCard);
