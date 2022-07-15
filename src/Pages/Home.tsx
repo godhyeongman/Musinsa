@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
 import { ToggleStateDispatchContext } from '@/contexts/DisplayToggleProvider';
@@ -8,17 +8,20 @@ import useProductItem from '@/hooks/useProductItem';
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
   const [endScrollCount, setEndScrollCount] = useState(0);
-  const { payLoad, target, productCards } = useProductItem();
+  const { target, productCards, loadMoreItem } = useProductItem();
 
   useEffect(() => {
-    if (payLoad) {
-      const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          console.log(1);
-        }
-      });
-      observer.observe(target.current!);
+    if (!target) {
+      return;
     }
+
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        setEndScrollCount(endScrollCount + 1);
+        console.log(1);
+      }
+    });
+    observer.observe(target.current);
   }, []);
 
   return (
