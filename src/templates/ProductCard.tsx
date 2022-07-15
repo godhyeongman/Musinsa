@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as Product from '@/components/product';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 type ProductCardProps = {
   id: number;
@@ -17,20 +17,23 @@ type ProductCardProps = {
   saleRate: number;
 };
 
-function ProductCard({
-  id,
-  brandName,
-  productName,
-  originalPrice,
-  currentPrice,
-  imageUrl,
-  linkUrl,
-  brandLinkUrl,
-  isSale,
-  isSoldOut,
-  isExclusive,
-  saleRate,
-}: ProductCardProps) {
+function ProductCard(
+  {
+    id,
+    brandName,
+    productName,
+    originalPrice,
+    currentPrice,
+    imageUrl,
+    linkUrl,
+    brandLinkUrl,
+    isSale,
+    isSoldOut,
+    isExclusive,
+    saleRate,
+  }: ProductCardProps,
+  ref,
+) {
   const saledItemInfo = (
     <>
       <a href={brandLinkUrl}>
@@ -64,7 +67,7 @@ function ProductCard({
   );
 
   return (
-    <ProductCardWrapper key={id}>
+    <ProductCardWrapper key={id} ref={ref}>
       <ProductFigure>
         <ProductImg src={imageUrl} alt="제품 사진" onError={onErrorImg} />
         <Product.ExclusiveItemBadge isExclusive={isExclusive} />
@@ -107,4 +110,6 @@ const SaledPrice = styled.div`
   justify-content: space-between;
 `;
 
-export default ProductCard;
+export default forwardRef<React.MutableRefObject<undefined>, ProductCardProps>(
+  ProductCard,
+);
