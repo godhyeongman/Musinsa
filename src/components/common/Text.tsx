@@ -33,8 +33,8 @@ const StyledSpan = styled.span<Partial<TextProps>>`
     css`
       color: ${theme.color[color!]};
       font-weight: ${theme.fontWeight[fontWeight!]};
-      fontsize: ${theme.fontSize[fontSize!]};
-      ${styles || null};
+      font-size: ${theme.fontSize[fontSize!]};
+      ${styles};
     `}
 `;
 

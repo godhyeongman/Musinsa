@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
-export const useNullGuardedContext = <TargetType,>(
+export function useNullGuardedContext<TargetType>(
   context: React.Context<TargetType | null>,
-): TargetType => {
+): TargetType {
   const targetState = useContext(context);
 
   if (targetState === null || targetState === undefined) {
@@ -10,4 +10,4 @@ export const useNullGuardedContext = <TargetType,>(
   }
 
   return targetState;
-};
+}

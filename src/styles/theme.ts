@@ -21,5 +21,7 @@ export const theme: DefaultTheme = {
     breakLine: '#F1F1F1',
     black: '#000000',
     white: '#ffffff',
+    red: '#FF0000',
+    badgeGreen: '#18A286',
   },
 };

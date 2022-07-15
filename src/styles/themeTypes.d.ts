@@ -24,6 +24,8 @@ declare module 'styled-components' {
       breakLine: string;
       black: string;
       white: string;
+      red: string;
+      badgeGreen: string;
     };
   }
 }
