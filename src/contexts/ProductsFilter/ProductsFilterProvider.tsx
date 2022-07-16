@@ -34,13 +34,13 @@ export const filterProductsReducer = (
     case 'CLICKED_EXCLUSIVE':
       return {
         ...state,
-        isFilterExclusive: !state.isFilterExclusive ? null : true,
+        isFilterExclusive: state.isFilterExclusive ? null : true,
       };
 
     case 'CLICKED_SOLD_OUT':
       return {
         ...state,
-        isFilterSoldOut: !state.isFilterSoldOut ? null : true,
+        isFilterSoldOut: state.isFilterSoldOut ? null : true,
       };
 
     case 'RESET':
