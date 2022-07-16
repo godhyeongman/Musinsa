@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Todo: 모든 NUll -> undefined로 마이그레이션
 const initialState: {
@@ -46,7 +46,6 @@ function useFetchData(url: string) {
       })
       .catch(err => {
         setFetchState({ ...fetchState, Error: err });
-        throw new Error('데이터 통신에러');
       });
   };
 

@@ -1,32 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
+import {
+  DefaultHeader as DefaultHeaderTemplate,
+  ProductCard,
+} from '@/templates';
 import { ToggleStateDispatchContext } from '@/contexts/DisplayToggleProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
-import useProductItem from '@/hooks/useProductItem';
+import useFetchData from '@/hooks/useFetch';
+
+const getProductCards = (
+  productData: any,
+  target: React.RefObject<HTMLDivElement>,
+) => {
+  if (!productData) {
+    return;
+  }
+
+  const {
+    data: { list },
+  } = productData;
+
+  const productCards = list.map((productItemData: any, idx: number) => {
+    if (idx === list.length - 1) {
+      return <ProductCard productData={productItemData} ref={target} />;
+    }
+
+    return <ProductCard productData={productItemData} />;
+  });
+
+  return productCards;
+};
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
   const [endScrollCount, setEndScrollCount] = useState<number>(1);
-  const { target, productCards, setLoadMoreUrl } = useProductItem();
+  // const { target, productCards, setLoadMoreUrl } = useProductItem();
+  const { fetchState: productsData, setLoadMoreUrl } = useFetchData(
+    `${process.env.GET_PRODUCT_DATA}0.json`,
+  );
 
-  const callBack = entries => {
-    if (entries[endScrollCount - 1].isIntersecting) {
-      setEndScrollCount(endScrollCount + 1);
-
-      console.log(endScrollCount);
-      setLoadMoreUrl(`${process.env.GET_PRODUCT_DATA}${endScrollCount}.json`);
-      return endScrollCount;
-    }
-  };
-
+  const target = useRef<HTMLDivElement>(null);
+  const cards = getProductCards(productsData.payLoad, target);
   useEffect(() => {
-    if (!target) {
+    if (!target.current) {
       return;
     }
-    const observer = new IntersectionObserver(callBack);
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        setLoadMoreUrl(`${process.env.GET_PRODUCT_DATA}${endScrollCount}.json`);
+        setEndScrollCount(endScrollCount + 1);
+      }
+    });
     observer.observe(target.current!);
-  }, [target]);
+    return () => observer && observer.disconnect();
+  }, [productsData.payLoad]);
 
   return (
     <Layout
@@ -37,7 +64,7 @@ export function Home() {
       <header>
         <DefaultHeaderTemplate />
       </header>
-      <main>{productCards || null}</main>
+      <main>{cards || null}</main>
     </Layout>
   );
 }
