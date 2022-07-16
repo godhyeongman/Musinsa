@@ -1,7 +1,10 @@
+import { Dispatch } from 'react';
+import { ProductsFliterAction } from '@/contexts/ProductsFilter/types';
+
 export const toggleFilterInput = (
   e: React.MouseEvent<HTMLElement>,
   currentDisplayState: boolean,
-  setToggleState,
+  setToggleState: Dispatch<boolean>,
 ) => {
   e.stopPropagation();
   setToggleState(currentDisplayState);
@@ -13,7 +16,7 @@ export const handleFilterTab = (
     | 'CLICKED_EXCLUSIVE'
     | 'CLICKED_SOLD_OUT'
     | 'RESET',
-  dispatchFilterAction,
+  dispatchFilterAction: Dispatch<ProductsFliterAction>,
 ) => {
   const action = { type: actionType };
   dispatchFilterAction(action);

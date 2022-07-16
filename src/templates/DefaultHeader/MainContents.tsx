@@ -11,41 +11,39 @@ import * as Handlers from './handlers';
 
 export const getMainContents = (
   TabData: filterDataType[],
-  toggleContextState: boolean,
-  setToggleDisplayState: Dispatch<boolean>,
   dispatchFilterAction: Dispatch<ProductsFliterAction>,
 ) => {
-  const filterTabItem = TabData.map(
-    ({ contents, ownIcon, actionType }, idx) => {
-      if (idx === 0) {
-        return (
-          <Tab
-            contents={contents}
-            Icon={ownIcon}
-            onClickHandler={e => {
-              Handlers.toggleFilterInput(
-                e,
-                toggleContextState,
-                setToggleDisplayState,
-              );
-            }}
-          />
-        );
-      }
-      return (
-        <Tab
-          contents={contents}
-          Icon={ownIcon}
-          onClickHandler={() => {
-            Handlers.handleFilterTab(actionType!, dispatchFilterAction);
-          }}
-        />
-      );
-    },
-  );
+  const filterTabItem = TabData.map(({ contents, ownIcon, actionType }) => {
+    return (
+      <Tab
+        contents={contents}
+        Icon={ownIcon}
+        onClickHandler={() => {
+          Handlers.handleFilterTab(actionType!, dispatchFilterAction);
+        }}
+      />
+    );
+  });
 
   return filterTabItem;
 };
+
+export const getSearchTab = (
+  {
+    contents,
+    ownIcon,
+  }: { contents: string; ownIcon: React.ReactElement<any> | null },
+  toggleContextState: boolean,
+  setToggleDisplayState: Dispatch<boolean>,
+) => (
+  <Tab
+    contents={contents}
+    Icon={ownIcon}
+    onClickHandler={e => {
+      Handlers.toggleFilterInput(e, toggleContextState, setToggleDisplayState);
+    }}
+  />
+);
 
 export const getActivatedTabs = (
   TAB_LIST: string[],

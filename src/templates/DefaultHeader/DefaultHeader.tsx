@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import Logo from '@/assets/icons/Logo.svg';
 import TabBar from '@/components/filter/TabBar';
-import FILTER_TAB_DATA, { TAB_LIST } from '@/constants/FilterTabContents';
+import FILTER_TAB_DATA, {
+  TAB_LIST,
+  searchTabContents,
+} from '@/constants/FilterTabContents';
 import SearchInput from '@/components/search/Input';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import {
@@ -12,7 +15,11 @@ import {
   ProductsFilterContext,
   ProductsFilterDispatchContext,
 } from '@/contexts/ProductsFilter/ProductsFilterProvider';
-import { getMainContents, getActivatedTabs } from './MainContents';
+import {
+  getMainContents,
+  getActivatedTabs,
+  getSearchTab,
+} from './MainContents';
 
 function DefaultHeader() {
   const toggleDisplayState = useNullGuardedContext(ToggleStateContext);
@@ -21,20 +28,25 @@ function DefaultHeader() {
   const filteringDispatch = useNullGuardedContext(
     ProductsFilterDispatchContext,
   );
-  const mainContents = getMainContents(
-    FILTER_TAB_DATA,
+  const { ownIcon, contents } = searchTabContents;
+
+  const mainContents = getMainContents(FILTER_TAB_DATA, filteringDispatch);
+  const activatedTabs = getActivatedTabs(TAB_LIST, productsFilterState);
+  const searchTab = getSearchTab(
+    { ownIcon, contents },
     toggleDisplayState,
     setToggle,
-    filteringDispatch,
   );
 
-  const activatedTabs = getActivatedTabs(TAB_LIST, productsFilterState);
   return (
     <>
       <a href="/">
         <Logo />
       </a>
-      <TabBar>{mainContents}</TabBar>
+      <TabBar>
+        {searchTab}
+        {mainContents}
+      </TabBar>
       <ActivatedFilterZone>{activatedTabs}</ActivatedFilterZone>
       <SearchInput isClicked={toggleDisplayState} />
     </>
