@@ -8,6 +8,7 @@ import { ToggleStateDispatchContext } from '@/contexts/DisPlayToggle/DisplayTogg
 import { ProductsFilterContext } from '@/contexts/ProductsFilter/ProductsFilterProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
+import * as calcFilter from '@/business/filterProd';
 
 const getProductCards = (
   productData: any,
@@ -26,12 +27,14 @@ const getProductCards = (
     data: { list },
   } = productData;
 
-  const filterdData = list.filter(
-    (productItemData: any) =>
-      productItemData.isSale !== filterState.isFilterSale &&
-      productItemData.isExclusive !== filterState.isFilterExclusive &&
-      productItemData.isSoldOut !== filterState.isFilterSoldOut,
+  const filterLists = calcFilter.pipe(
+    calcFilter.checkTargetState(filterState.isFilterSale!, 'isSale'),
+    calcFilter.checkTargetState(filterState.isFilterExclusive!, 'isExclusive'),
+    calcFilter.checkTargetState(filterState.isFilterSoldOut!, 'isSoldOut'),
   );
+
+  const filterdData = filterLists(list);
+
   const productCards = filterdData.map((productItemData: any, idx: number) => {
     if (idx === filterdData.length - 1) {
       return <ProductCard productData={productItemData} ref={target} />;
