@@ -3,7 +3,7 @@ import { useBoolean } from '@/hooks/useBoolean';
 
 export const ToggleStateContext = createContext<null | boolean>(null);
 export const ToggleStateDispatchContext = createContext<null | {
-  setToggle: React.Dispatch<boolean>;
+  setToggle: Dispatch<boolean>;
   setFalse(): void;
   setTrue(): void;
 }>(null);
