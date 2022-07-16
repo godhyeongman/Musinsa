@@ -1,16 +1,22 @@
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {
   DefaultHeader as DefaultHeaderTemplate,
   ProductCard,
 } from '@/templates';
-import { ToggleStateDispatchContext } from '@/contexts/DisplayToggleProvider';
+import { ToggleStateDispatchContext } from '@/contexts/DisPlayToggle/DisplayToggleProvider';
+import { ProductsFilterContext } from '@/contexts/ProductsFilter/ProductsFilterProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
 
 const getProductCards = (
   productData: any,
   target: React.RefObject<HTMLDivElement>,
+  filterState: {
+    isFilterSale: boolean | null;
+    isFilterExclusive: boolean | null;
+    isFilterSoldOut: boolean | null;
+  },
 ) => {
   if (!productData) {
     return;
@@ -20,8 +26,14 @@ const getProductCards = (
     data: { list },
   } = productData;
 
-  const productCards = list.map((productItemData: any, idx: number) => {
-    if (idx === list.length - 1) {
+  const filterdData = list.filter(
+    (productItemData: any) =>
+      productItemData.isSale !== filterState.isFilterSale &&
+      productItemData.isExclusive !== filterState.isFilterExclusive &&
+      productItemData.isSoldOut !== filterState.isFilterSoldOut,
+  );
+  const productCards = filterdData.map((productItemData: any, idx: number) => {
+    if (idx === filterdData.length - 1) {
       return <ProductCard productData={productItemData} ref={target} />;
     }
 
@@ -33,13 +45,14 @@ const getProductCards = (
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
+  const fitlerState = useNullGuardedContext(ProductsFilterContext);
   const [endScrollCount, setEndScrollCount] = useState<number>(1);
   const { fetchState: productsData, setLoadMoreUrl } = useFetchData(
     `${process.env.GET_PRODUCT_DATA}0.json`,
   );
 
   const target = useRef<HTMLDivElement>(null);
-  const cards = getProductCards(productsData.payLoad, target);
+  const cards = getProductCards(productsData.payLoad, target, fitlerState);
 
   useEffect(() => {
     if (!target.current) {
@@ -51,6 +64,7 @@ export function Home() {
         setEndScrollCount(endScrollCount + 1);
       }
     });
+
     observer.observe(target.current!);
     return () => observer && observer.disconnect();
   }, [productsData.payLoad]);
