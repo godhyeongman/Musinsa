@@ -1,18 +1,12 @@
-import React, { createContext, Dispatch } from 'react';
+import { createContext } from 'react';
 import { useBoolean } from '@/hooks/useBoolean';
+import * as TYPE from './types';
 
 export const ToggleStateContext = createContext<null | boolean>(null);
-export const ToggleStateDispatchContext = createContext<null | {
-  setToggle: Dispatch<boolean>;
-  setFalse(): void;
-  setTrue(): void;
-}>(null);
+export const ToggleStateDispatchContext =
+  createContext<null | TYPE.ToggleStateDispatchContext>(null);
 
-type ToggleProviderProps = {
-  children?: React.ReactNode;
-};
-
-export function DisplayToggleProvider({ children }: ToggleProviderProps) {
+export function DisplayToggleProvider({ children }: TYPE.ToggleProviderProps) {
   const { booleanState, setToggle, setFalse, setTrue } = useBoolean(false);
 
   return (
