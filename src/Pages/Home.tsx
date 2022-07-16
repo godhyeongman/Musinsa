@@ -34,13 +34,13 @@ const getProductCards = (
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
   const [endScrollCount, setEndScrollCount] = useState<number>(1);
-  // const { target, productCards, setLoadMoreUrl } = useProductItem();
   const { fetchState: productsData, setLoadMoreUrl } = useFetchData(
     `${process.env.GET_PRODUCT_DATA}0.json`,
   );
 
   const target = useRef<HTMLDivElement>(null);
   const cards = getProductCards(productsData.payLoad, target);
+
   useEffect(() => {
     if (!target.current) {
       return;
@@ -64,7 +64,7 @@ export function Home() {
       <header>
         <DefaultHeaderTemplate />
       </header>
-      <main>{cards || null}</main>
+      <main>{cards}</main>
     </Layout>
   );
 }
