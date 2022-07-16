@@ -1,7 +1,7 @@
 import SEARCH_ICON from '@/assets/icons/Search.svg';
 import { ReactElement } from 'react';
 
-type filterData = {
+export type filterDataType = {
   contents: string;
   ownIcon: ReactElement | null;
   actionType?:
@@ -11,11 +11,13 @@ type filterData = {
     | 'RESET';
 };
 
-const filterTabContents: filterData[] = [
+const filterTabContents: filterDataType[] = [
   { contents: '검색', ownIcon: <SEARCH_ICON /> },
   { contents: '세일상품', ownIcon: null, actionType: 'CLICKED_SALE' },
   { contents: '단독상품', ownIcon: null, actionType: 'CLICKED_EXCLUSIVE' },
   { contents: '품절포함', ownIcon: null, actionType: 'CLICKED_SOLD_OUT' },
 ];
+
+export const TAB_LIST = ['세일상품', '단독상품', '품절상품'];
 
 export default filterTabContents;

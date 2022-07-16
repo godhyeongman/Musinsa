@@ -5,7 +5,7 @@ import { ToggleStateDispatchContext } from '@/contexts/DisPlayToggle/DisplayTogg
 import { ProductsFilterContext } from '@/contexts/ProductsFilter/ProductsFilterProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
-import { getProductCards } from './getMainContents';
+import { getProductCards } from './MainContents';
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
