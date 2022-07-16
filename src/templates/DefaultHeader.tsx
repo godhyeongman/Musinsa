@@ -1,19 +1,25 @@
 import React from 'react';
+import styled from 'styled-components';
 import Logo from '@/assets/icons/Logo.svg';
 import TabBar from '@/components/filter/TabBar';
 import Tab from '@/components/filter/Tab';
 import FILTER_TAB_DATA from '@/constants/FilterTabContents';
 import SearchInput from '@/components/search/Input';
+import ActivatedFilterTab from '@/components/filter/ActivatedFilterTab';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import {
   ToggleStateContext,
   ToggleStateDispatchContext,
 } from '@/contexts/DisPlayToggle/DisplayToggleProvider';
-import { ProductsFilterDispatchContext } from '@/contexts/ProductsFilter/ProductsFilterProvider';
+import {
+  ProductsFilterContext,
+  ProductsFilterDispatchContext,
+} from '@/contexts/ProductsFilter/ProductsFilterProvider';
 
 function DefaultHeader() {
   const toggleDisplayState = useNullGuardedContext(ToggleStateContext);
   const { setToggle } = useNullGuardedContext(ToggleStateDispatchContext);
+  const test = useNullGuardedContext(ProductsFilterContext);
   const filteringDispatch = useNullGuardedContext(
     ProductsFilterDispatchContext,
   );
@@ -63,15 +69,26 @@ function DefaultHeader() {
     },
   );
 
+  const TAB_LIST = ['세일상품', '단독상품', '품절상품'];
+  const activatedTabs = Object.values(test).map((value, idx) => (
+    <ActivatedFilterTab isActivate={value} contents={TAB_LIST[idx]} />
+  ));
+
   return (
     <>
       <a href="/">
         <Logo />
       </a>
       <TabBar>{filterTabItem}</TabBar>
+      <ActivatedFilterZone>{activatedTabs}</ActivatedFilterZone>
       <SearchInput isClicked={toggleDisplayState} />
     </>
   );
 }
+
+const ActivatedFilterZone = styled.section`
+  display: flex;
+  gap: 4px;
+`;
 
 export default DefaultHeader;
