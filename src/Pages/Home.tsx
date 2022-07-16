@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {
   DefaultHeader as DefaultHeaderTemplate,
@@ -8,54 +8,52 @@ import { ToggleStateDispatchContext } from '@/contexts/DisplayToggleProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
 
+const getProductCards = (
+  productData: any,
+  target: React.RefObject<HTMLDivElement>,
+) => {
+  if (!productData) {
+    return;
+  }
+
+  const {
+    data: { list },
+  } = productData;
+
+  const productCards = list.map((productItemData: any, idx: number) => {
+    if (idx === list.length - 1) {
+      return <ProductCard productData={productItemData} ref={target} />;
+    }
+
+    return <ProductCard productData={productItemData} />;
+  });
+
+  return productCards;
+};
+
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
-  const productsData = useFetchData(
-    'https://static.msscdn.net/musinsaUI/homework/data/goods0.json',
+  const [endScrollCount, setEndScrollCount] = useState<number>(1);
+  const { fetchState: productsData, setLoadMoreUrl } = useFetchData(
+    `${process.env.GET_PRODUCT_DATA}0.json`,
   );
 
-  let test;
+  const target = useRef<HTMLDivElement>(null);
+  const cards = getProductCards(productsData.payLoad, target);
 
-  if (productsData.payLoad) {
-    const {
-      payLoad: {
-        data: { list },
-      },
-    } = productsData;
-
-    test = list.map(
-      ({
-        brandLinkUrl,
-        brandName,
-        goodsName,
-        goodsNo,
-        imageUrl,
-        isExclusive,
-        isSale,
-        isSoldOut,
-        linkUrl,
-        normalPrice,
-        price,
-        saleRate,
-      }: any) => (
-        <ProductCard
-          id={goodsNo}
-          brandName={brandName}
-          productName={goodsName}
-          saleRate={saleRate}
-          isSale={isSale}
-          isSoldOut={isSoldOut}
-          isExclusive={isExclusive}
-          currentPrice={price}
-          originalPrice={normalPrice}
-          imageUrl={imageUrl}
-          linkUrl={linkUrl}
-          brandLinkUrl={brandLinkUrl}
-          key={goodsNo}
-        />
-      ),
-    );
-  }
+  useEffect(() => {
+    if (!target.current) {
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        setLoadMoreUrl(`${process.env.GET_PRODUCT_DATA}${endScrollCount}.json`);
+        setEndScrollCount(endScrollCount + 1);
+      }
+    });
+    observer.observe(target.current!);
+    return () => observer && observer.disconnect();
+  }, [productsData.payLoad]);
 
   return (
     <Layout
@@ -66,7 +64,7 @@ export function Home() {
       <header>
         <DefaultHeaderTemplate />
       </header>
-      <main>{test}</main>
+      <main>{cards}</main>
     </Layout>
   );
 }
@@ -100,4 +98,4 @@ const Layout = styled.div`
   }
 `;
 
-export default React.memo(Home);
+export default Home;
