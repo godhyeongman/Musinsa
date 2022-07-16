@@ -1,50 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import {
-  DefaultHeader as DefaultHeaderTemplate,
-  ProductCard,
-} from '@/templates';
+import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
 import { ToggleStateDispatchContext } from '@/contexts/DisPlayToggle/DisplayToggleProvider';
 import { ProductsFilterContext } from '@/contexts/ProductsFilter/ProductsFilterProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
-import * as calcFilter from '@/business/filterProd';
-
-const getProductCards = (
-  productData: any,
-  target: React.RefObject<HTMLDivElement>,
-  filterState: {
-    isFilterSale: boolean | null;
-    isFilterExclusive: boolean | null;
-    isFilterSoldOut: boolean | null;
-  },
-) => {
-  if (!productData) {
-    return;
-  }
-
-  const {
-    data: { list },
-  } = productData;
-
-  const filterLists = calcFilter.pipe(
-    calcFilter.checkTargetState(filterState.isFilterSale!, 'isSale'),
-    calcFilter.checkTargetState(filterState.isFilterExclusive!, 'isExclusive'),
-    calcFilter.checkTargetState(filterState.isFilterSoldOut!, 'isSoldOut'),
-  );
-
-  const filterdData = filterLists(list);
-
-  const productCards = filterdData.map((productItemData: any, idx: number) => {
-    if (idx === filterdData.length - 1) {
-      return <ProductCard productData={productItemData} ref={target} />;
-    }
-
-    return <ProductCard productData={productItemData} />;
-  });
-
-  return productCards;
-};
+import { getProductCards } from './getMainContents';
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
@@ -70,7 +31,7 @@ export function Home() {
 
     observer.observe(target.current!);
     return () => observer && observer.disconnect();
-  }, [productsData.payLoad]);
+  }, [productsData.payLoad, fitlerState]);
 
   return (
     <Layout
