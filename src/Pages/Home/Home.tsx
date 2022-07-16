@@ -6,6 +6,7 @@ import { ProductsFilterContext } from '@/contexts/ProductsFilter/ProductsFilterP
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
 import { getProductCards } from './MainContents';
+import { onInterSect } from './handler';
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
@@ -19,18 +20,7 @@ export function Home() {
   const cards = getProductCards(productsData.payLoad, target, fitlerState);
 
   useEffect(() => {
-    if (!target.current) {
-      return;
-    }
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        setLoadMoreUrl(`${process.env.GET_PRODUCT_DATA}${endScrollCount}.json`);
-        setEndScrollCount(endScrollCount + 1);
-      }
-    });
-
-    observer.observe(target.current!);
-    return () => observer && observer.disconnect();
+    onInterSect(target, setLoadMoreUrl, setEndScrollCount, endScrollCount);
   }, [productsData.payLoad, fitlerState]);
 
   return (
