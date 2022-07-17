@@ -18,7 +18,7 @@ export const filterProductsReducer = (
     case 'CLICKED_SOLD_OUT':
       return {
         ...state,
-        isFilterSoldOut: state.isFilterSoldOut ? null : true,
+        isFilterSoldOut: !state.isFilterSoldOut,
       };
 
     case 'RESET':
