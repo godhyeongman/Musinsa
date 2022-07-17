@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useDeferredValue, useMemo } from 'react';
 import styled from 'styled-components';
 import { SearchProductsDisPatchContext } from '@/contexts/SearchProducts/SearchProductsProvider';
 
@@ -6,6 +6,7 @@ type InputProps = { isClicked: boolean; onChange(e: React.ChangeEvent): void };
 
 function Input({ isClicked, onChange }: InputProps) {
   const [matching, setMetching] = useState(null);
+  const deferredIssueData = useDeferredValue(matching);
   const setSearchProductsContext = useContext(SearchProductsDisPatchContext);
   const checkInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const matchedData = onChange(e);
@@ -19,11 +20,15 @@ function Input({ isClicked, onChange }: InputProps) {
     }
   };
 
-  const searchedData = matching
-    ? matching.map(({ goodsName }: { goodsName: string }) => (
-        <SearchingKeyWord>{goodsName}</SearchingKeyWord>
-      ))
-    : null;
+  const deferredMatchingData = useMemo(
+    () =>
+      matching
+        ? matching.map(({ goodsName }: { goodsName: string }) => (
+            <SearchingKeyWord>{goodsName}</SearchingKeyWord>
+          ))
+        : null,
+    [deferredIssueData],
+  );
 
   return (
     <StyledForm
@@ -34,7 +39,7 @@ function Input({ isClicked, onChange }: InputProps) {
       onSubmit={setItem}
     >
       <StyledInput placeholder="상품 검색" onChange={checkInput} />
-      {searchedData}
+      {deferredMatchingData}
     </StyledForm>
   );
 }
