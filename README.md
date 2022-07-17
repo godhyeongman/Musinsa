@@ -29,6 +29,12 @@ https://62d3e37781fa5c4147b8a92d--dott-musinsa.netlify.app
 
 - PR링크: https://github.com/godhyeongman/Musinsa/pulls?q=is%3Apr+is%3Aclosed
 
+## 개발 과정
+
+### 노션 정리
+
+https://buttercup-loan-b58.notion.site/X-9a8970bb94d9459eba8275da29ae4fcb
+
 ## 구동
 
 **script**
@@ -62,8 +68,4 @@ https://62d3e37781fa5c4147b8a92d--dott-musinsa.netlify.app
 ![녹화_2022_07_17_22_38_18_623](https://user-images.githubusercontent.com/88314186/179401323-be595194-cfe6-4c82-9790-4458cbeb1a2d.gif)
 
 
-## 개발 과정
 
-### 노션 정리
-
-https://buttercup-loan-b58.notion.site/X-9a8970bb94d9459eba8275da29ae4fcb
