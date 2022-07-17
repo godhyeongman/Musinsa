@@ -1,50 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import {
-  DefaultHeader as DefaultHeaderTemplate,
-  ProductCard,
-} from '@/templates';
+import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
 import { ToggleStateDispatchContext } from '@/contexts/DisPlayToggle/DisplayToggleProvider';
 import { ProductsFilterContext } from '@/contexts/ProductsFilter/ProductsFilterProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
-import * as calcFilter from '@/business/filterProd';
-
-const getProductCards = (
-  productData: any,
-  target: React.RefObject<HTMLDivElement>,
-  filterState: {
-    isFilterSale: boolean | null;
-    isFilterExclusive: boolean | null;
-    isFilterSoldOut: boolean | null;
-  },
-) => {
-  if (!productData) {
-    return;
-  }
-
-  const {
-    data: { list },
-  } = productData;
-
-  const filterLists = calcFilter.pipe(
-    calcFilter.checkTargetState(filterState.isFilterSale!, 'isSale'),
-    calcFilter.checkTargetState(filterState.isFilterExclusive!, 'isExclusive'),
-    calcFilter.checkTargetState(filterState.isFilterSoldOut!, 'isSoldOut'),
-  );
-
-  const filterdData = filterLists(list);
-
-  const productCards = filterdData.map((productItemData: any, idx: number) => {
-    if (idx === filterdData.length - 1) {
-      return <ProductCard productData={productItemData} ref={target} />;
-    }
-
-    return <ProductCard productData={productItemData} />;
-  });
-
-  return productCards;
-};
+import { getProductCards } from './MainContents';
+import { onInterSect } from './handler';
 
 export function Home() {
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
@@ -58,19 +20,8 @@ export function Home() {
   const cards = getProductCards(productsData.payLoad, target, fitlerState);
 
   useEffect(() => {
-    if (!target.current) {
-      return;
-    }
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        setLoadMoreUrl(`${process.env.GET_PRODUCT_DATA}${endScrollCount}.json`);
-        setEndScrollCount(endScrollCount + 1);
-      }
-    });
-
-    observer.observe(target.current!);
-    return () => observer && observer.disconnect();
-  }, [productsData.payLoad]);
+    onInterSect(target, setLoadMoreUrl, setEndScrollCount, endScrollCount);
+  }, [productsData.payLoad, fitlerState]);
 
   return (
     <Layout
