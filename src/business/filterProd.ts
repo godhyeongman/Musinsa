@@ -1,7 +1,4 @@
-export const pipe =
-  (...fns: Function[]) =>
-  (data: []) =>
-    fns.reduce((prev, fn) => fn(prev), data);
+export { pipe } from './shared';
 
 export const checkTargetState =
   (filterState: boolean, target: string) => (datas: []) =>
