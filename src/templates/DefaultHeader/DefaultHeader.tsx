@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import Logo from '@/assets/icons/Logo.svg';
 import TabBar from '@/components/filter/TabBar';
@@ -17,12 +17,13 @@ import {
   ProductsFilterDispatchContext,
   FilterdProductsContext,
 } from '@/contexts/ProductsFilter/ProductsFilterProvider';
-
+import { checkSameData } from '@/business/filterSearch';
 import {
   getMainContents,
   getActivatedTabs,
   getSearchTab,
 } from './MainContents';
+import { handleFilterInput } from './handlers';
 
 function DefaultHeader() {
   const toggleDisplayState = useNullGuardedContext(ToggleStateContext);
@@ -54,10 +55,7 @@ function DefaultHeader() {
       <ActivatedFilterZone>{activatedTabs}</ActivatedFilterZone>
       <SearchInput
         isClicked={toggleDisplayState}
-        onChange={(e: React.ChangeEvent) => {
-          e.preventDefault();
-          console.log(filterdProductsData);
-        }}
+        onChange={handleFilterInput(checkSameData, filterdProductsData)}
       />
     </>
   );

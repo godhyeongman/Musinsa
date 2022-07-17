@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import React, { Dispatch } from 'react';
 import { ProductsFliterAction } from '@/contexts/ProductsFilter/types';
 
 export const toggleFilterInput = (
@@ -21,3 +21,14 @@ export const handleFilterTab = (
   const action = { type: actionType };
   dispatchFilterAction(action);
 };
+
+export const handleFilterInput =
+  (
+    filterLogic: (baseData: any[], comparisonTarget: string) => string[],
+    targetDatas: any[],
+  ) =>
+  (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const checked = filterLogic(targetDatas, e.target.value);
+    return checked;
+  };
