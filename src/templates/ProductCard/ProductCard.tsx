@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import * as Product from '@/components/product';
 import React, { forwardRef } from 'react';
+import { noneSaledItemInfo, saledItemInfo } from './MainContents';
 
 type ProductDataProps = {
   goodsNo: number;
@@ -37,37 +38,24 @@ export const ProductCard = forwardRef(
       saleRate,
     } = productData;
 
-    const saledItemInfo = (
-      <>
-        <a href={brandLinkUrl}>
-          <Product.BrandNameText name={brandName} />
-        </a>
-        <a href={linkUrl}>
-          <Product.ProductNameText name={goodsName} />
-        </a>
-        <SaledPrice>
-          <Product.CurrentPriceText price={price.toLocaleString()} />
-          <Product.DiscountRateText discountRate={`${saleRate}`} />
-        </SaledPrice>
-        <Product.OriginalPriceText
-          originalPrice={normalPrice.toLocaleString()}
-        />
-      </>
-    );
-
-    const noneSaledItemInfo = (
-      <>
-        <a href={brandLinkUrl}>
-          <Product.BrandNameText name={brandName} />
-        </a>
-        <a href={linkUrl}>
-          <Product.ProductNameText name={goodsName} />
-        </a>
-        <SaledPrice>
-          <Product.CurrentPriceText price={normalPrice.toLocaleString()} />
-        </SaledPrice>
-      </>
-    );
+    const NoneSaledItemInfo = noneSaledItemInfo({
+      brandName,
+      goodsName,
+      normalPrice,
+      linkUrl,
+      brandLinkUrl,
+      saleRate,
+      price,
+    });
+    const SaledItemInfo = saledItemInfo({
+      brandName,
+      goodsName,
+      normalPrice,
+      linkUrl,
+      brandLinkUrl,
+      saleRate,
+      price,
+    });
 
     return (
       <ProductCardWrapper key={goodsNo} ref={ref}>
@@ -75,7 +63,7 @@ export const ProductCard = forwardRef(
           <ProductImg src={imageUrl} alt="제품 사진" onError={onErrorImg} />
           <Product.ExclusiveItemBadge isExclusive={isExclusive} />
         </ProductFigure>
-        <InfoSection>{isSale ? saledItemInfo : noneSaledItemInfo}</InfoSection>
+        <InfoSection>{isSale ? SaledItemInfo : NoneSaledItemInfo}</InfoSection>
       </ProductCardWrapper>
     );
   },
@@ -106,10 +94,4 @@ const InfoSection = styled.section`
   flex-direction: column;
   flex-wrap: wrap;
   padding: 20px 10px;
-`;
-
-const SaledPrice = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
 `;
