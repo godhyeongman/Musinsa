@@ -59,7 +59,7 @@ export const ProductCard = forwardRef(
 
     return (
       <ProductCardWrapper key={goodsNo} ref={ref}>
-        <ProductFigure>
+        <ProductFigure isSoldOut={isSoldOut}>
           <ProductImg src={imageUrl} alt="제품 사진" onError={onErrorImg} />
           <Product.ExclusiveItemBadge isExclusive={isExclusive} />
         </ProductFigure>
@@ -79,10 +79,11 @@ const ProductCardWrapper = styled.div`
   width: fit-content;
 `;
 
-const ProductFigure = styled.figure`
+const ProductFigure = styled.figure<{ isSoldOut: boolean }>`
   position: relative;
   width: 190px;
   height: 200px;
+  opacity: ${({ isSoldOut }) => (isSoldOut ? '0.4' : 'none')};
 `;
 
 const ProductImg = styled.img`

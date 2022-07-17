@@ -1,4 +1,4 @@
-import { ProductCard } from '@/templates/ProductCard';
+import { ProductCard } from '@/templates/ProductCard/ProductCard';
 import * as calcFilter from '@/business/filterProd';
 
 type filterStateType = {
