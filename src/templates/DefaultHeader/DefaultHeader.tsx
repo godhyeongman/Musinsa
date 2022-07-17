@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Logo from '@/assets/icons/Logo.svg';
 import TabBar from '@/components/filter/TabBar';
@@ -14,7 +15,9 @@ import {
 import {
   ProductsFilterContext,
   ProductsFilterDispatchContext,
+  FilterdProductsContext,
 } from '@/contexts/ProductsFilter/ProductsFilterProvider';
+
 import {
   getMainContents,
   getActivatedTabs,
@@ -28,6 +31,7 @@ function DefaultHeader() {
   const filteringDispatch = useNullGuardedContext(
     ProductsFilterDispatchContext,
   );
+  const filterdProductsData = useContext(FilterdProductsContext);
   const { ownIcon, contents } = searchTabContents;
 
   const mainContents = getMainContents(FILTER_TAB_DATA, filteringDispatch);
@@ -48,7 +52,13 @@ function DefaultHeader() {
         {mainContents}
       </TabBar>
       <ActivatedFilterZone>{activatedTabs}</ActivatedFilterZone>
-      <SearchInput isClicked={toggleDisplayState} />
+      <SearchInput
+        isClicked={toggleDisplayState}
+        onChange={(e: React.ChangeEvent) => {
+          e.preventDefault();
+          console.log(filterdProductsData);
+        }}
+      />
     </>
   );
 }

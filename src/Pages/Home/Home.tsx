@@ -2,22 +2,34 @@ import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
 import { ToggleStateDispatchContext } from '@/contexts/DisPlayToggle/DisplayToggleProvider';
-import { ProductsFilterContext } from '@/contexts/ProductsFilter/ProductsFilterProvider';
+import {
+  ProductsFilterContext,
+  FilterdProductsDispatchContext,
+} from '@/contexts/ProductsFilter/ProductsFilterProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
-import { getProductCards } from './MainContents';
+import { getProductCards, getFilterdData } from './MainContents';
 import { onInterSect } from './handler';
 
 export function Home() {
+  const target = useRef<HTMLDivElement>(null);
   const { setFalse } = useNullGuardedContext(ToggleStateDispatchContext);
   const fitlerState = useNullGuardedContext(ProductsFilterContext);
+  const setFilterdData = useNullGuardedContext(FilterdProductsDispatchContext);
   const [endScrollCount, setEndScrollCount] = useState<number>(1);
   const { fetchState: productsData, setLoadMoreUrl } = useFetchData(
     `${process.env.GET_PRODUCT_DATA}0.json`,
   );
 
-  const target = useRef<HTMLDivElement>(null);
-  const cards = getProductCards(productsData.payLoad, target, fitlerState);
+  const filterdData = productsData.payLoad
+    ? getFilterdData(fitlerState, productsData.payLoad.data.list)
+    : null;
+
+  setFilterdData(filterdData);
+
+  const cards = productsData.payLoad
+    ? getProductCards(filterdData, target)
+    : null;
 
   useEffect(() => {
     onInterSect(target, setLoadMoreUrl, setEndScrollCount, endScrollCount);

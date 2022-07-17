@@ -10,20 +10,13 @@ type filterStateType = {
 export const getProductCards = (
   productData: any,
   target: React.RefObject<HTMLDivElement>,
-  filterState: filterStateType,
 ) => {
   if (!productData) {
     return;
   }
 
-  const {
-    data: { list },
-  } = productData;
-
-  const filterdData = getFilterdData(filterState, list);
-
-  const productCards = filterdData.map((productItemData: any, idx: number) => {
-    if (idx === filterdData.length - 1) {
+  const productCards = productData.map((productItemData: any, idx: number) => {
+    if (idx === productData.length - 1) {
       return <ProductCard productData={productItemData} ref={target} />;
     }
 
@@ -33,7 +26,10 @@ export const getProductCards = (
   return productCards;
 };
 
-const getFilterdData = (filterState: filterStateType, targetList: any) => {
+export const getFilterdData = (
+  filterState: filterStateType,
+  targetList: any,
+) => {
   const filterLists = calcFilter.pipe(
     calcFilter.checkTargetState(filterState.isFilterSale!, 'isSale'),
     calcFilter.checkTargetState(filterState.isFilterExclusive!, 'isExclusive'),

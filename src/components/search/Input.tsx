@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import SEARCH_ICON from '@/assets/icons/Search.svg';
+import React from 'react';
 
-type InputProps = { isClicked: boolean };
+type InputProps = { isClicked: boolean; onChange(e: React.ChangeEvent): void };
 
-function Input({ isClicked }: InputProps) {
+function Input({ isClicked, onChange }: InputProps) {
   return (
     <StyledForm
       isClicked={isClicked}
@@ -11,7 +12,7 @@ function Input({ isClicked }: InputProps) {
         e.stopPropagation();
       }}
     >
-      <StyledInput placeholder="상품 검색" />
+      <StyledInput placeholder="상품 검색" onChange={onChange} />
     </StyledForm>
   );
 }
