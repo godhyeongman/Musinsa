@@ -36,7 +36,7 @@ module.exports = {
             ['@babel/preset-react', { runtime: 'automatic' }],
             '@babel/preset-typescript',
           ],
-          plugins: ['react-refresh/babel', 'babel-plugin-styled-components'],
+          plugins: ['babel-plugin-styled-components'],
         },
       },
       {
