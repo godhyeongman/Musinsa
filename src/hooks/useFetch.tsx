@@ -49,6 +49,17 @@ function useFetchData(url: string) {
       });
   };
 
+  const setPayloadState = (incomeState: any) => {
+    setFetchState({
+      ...fetchState,
+      payLoad: {
+        data: {
+          list: incomeState,
+        },
+      },
+    });
+  };
+
   useEffect(() => {
     startFetch(url);
   }, []);
@@ -60,7 +71,7 @@ function useFetchData(url: string) {
     loadMoreFetch(loadMoreUrl);
   }, [loadMoreUrl]);
 
-  return { fetchState, setLoadMoreUrl };
+  return { fetchState, setLoadMoreUrl, setPayloadState };
 }
 
 export default useFetchData;

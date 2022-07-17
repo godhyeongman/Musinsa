@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { DefaultHeader as DefaultHeaderTemplate } from '@/templates';
 import { ToggleStateDispatchContext } from '@/contexts/DisPlayToggle/DisplayToggleProvider';
@@ -6,6 +6,7 @@ import {
   ProductsFilterContext,
   FilterdProductsDispatchContext,
 } from '@/contexts/ProductsFilter/ProductsFilterProvider';
+import { SearchProductsContext } from '@/contexts/SearchProducts/SearchProductsProvider';
 import { useNullGuardedContext } from '@/hooks/useNullGuardedContext';
 import useFetchData from '@/hooks/useFetch';
 import { getProductCards, getFilterdData } from './MainContents';
@@ -20,9 +21,14 @@ export function Home() {
   const { fetchState: productsData, setLoadMoreUrl } = useFetchData(
     `${process.env.GET_PRODUCT_DATA}0.json`,
   );
+  const SearchedProducts = useContext(SearchProductsContext);
 
   const filterdData = productsData.payLoad
-    ? getFilterdData(fitlerState, productsData.payLoad.data.list)
+    ? getFilterdData(
+        fitlerState,
+        productsData.payLoad.data.list,
+        SearchedProducts,
+      )
     : null;
 
   setFilterdData(filterdData);
@@ -30,6 +36,8 @@ export function Home() {
   const cards = productsData.payLoad
     ? getProductCards(filterdData, target)
     : null;
+
+  const empty = productsData.Error ? <div>더이상 제품이 없습니다.</div> : null;
 
   useEffect(() => {
     onInterSect(target, setLoadMoreUrl, setEndScrollCount, endScrollCount);
@@ -45,6 +53,7 @@ export function Home() {
         <DefaultHeaderTemplate />
       </header>
       <main>{cards}</main>
+      {empty}
     </Layout>
   );
 }

@@ -21,7 +21,5 @@ export const checkSameData = (
     return result;
   });
 
-  const filterByName = checkedData.map(({ goodsName }) => goodsName);
-
-  return filterByName;
+  return checkedData;
 };

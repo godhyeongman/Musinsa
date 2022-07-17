@@ -29,11 +29,13 @@ export const getProductCards = (
 export const getFilterdData = (
   filterState: filterStateType,
   targetList: any,
+  searchedProducts: any,
 ) => {
   const filterLists = calcFilter.pipe(
     calcFilter.checkTargetState(filterState.isFilterSale!, 'isSale'),
     calcFilter.checkTargetState(filterState.isFilterExclusive!, 'isExclusive'),
     calcFilter.checkTargetState(filterState.isFilterSoldOut!, 'isSoldOut'),
+    calcFilter.checkSearchState(searchedProducts),
   );
 
   const filterdData = filterLists(targetList);

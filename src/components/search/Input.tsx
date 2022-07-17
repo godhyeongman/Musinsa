@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+import { SearchProductsDisPatchContext } from '@/contexts/SearchProducts/SearchProductsProvider';
 
 type InputProps = { isClicked: boolean; onChange(e: React.ChangeEvent): void };
 
 function Input({ isClicked, onChange }: InputProps) {
   const [matching, setMetching] = useState(null);
+  const setSearchProductsContext = useContext(SearchProductsDisPatchContext);
+  const checkInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const matchedData = onChange(e);
+    setMetching(matchedData);
+  };
+
+  const setItem = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (matching) {
+      setSearchProductsContext!(matching);
+    }
+  };
+
   const searchedData = matching
-    ? matching.map(goodsName => (
+    ? matching.map(({ goodsName }: { goodsName: string }) => (
         <SearchingKeyWord>{goodsName}</SearchingKeyWord>
       ))
     : null;
+
   return (
     <StyledForm
       isClicked={isClicked}
       onClick={e => {
         e.stopPropagation();
       }}
+      onSubmit={setItem}
     >
-      <StyledInput
-        placeholder="상품 검색"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          const matchedData = onChange(e);
-          setMetching(matchedData);
-        }}
-      />
+      <StyledInput placeholder="상품 검색" onChange={checkInput} />
       {searchedData}
     </StyledForm>
   );

@@ -8,3 +8,11 @@ export const checkTargetState =
       }
       return data[target] === filterState;
     });
+
+export const checkSearchState = (searchState: any) => (datas: []) =>
+  datas.filter(data => {
+    if (!searchState) {
+      return true;
+    }
+    return searchState.includes(data);
+  });
